@@ -1,0 +1,45 @@
+<% form_actions = capture do %>
+  <div class='form-actions'>
+    <div class='form-actions-left'>
+      <a class='button js-page-resources-done'><%= I18n.t('refinery.js.admin.page_resources.done') %></a>
+    </div>
+  </div>
+<% end %>
+
+<% modal_class = Refinery::PageResources.config.wysiwyg ? 'wym' : 'plain' %>
+
+<div class='wym_box field resources_field'>
+  <ul id='page_resources' class='clearfix'>
+    <%= f.fields_for :resources do |resource_form| %>
+      <li id='resource_<%= resource_form.object.id %>'>
+        <%= resource_form.hidden_field :id %>
+        <%= resource_fu resource_form.object, '135x135#c' %>
+        <% index = resource_form.object_name.split('[').last.split(']').first.to_i %>
+        <%= hidden_field_tag "#{f.object_name.demodulize}[resources_attributes][#{index}][resource_page_id]", f.object.resource_page_id_for_resource_index(index) %>
+        <% if Refinery::PageResources.captions %>
+          <div class='page-resources-caption-modal <%= modal_class %>'>
+            <%= text_area_tag "#{f.object_name.demodulize}[resources_attributes][#{index}][caption]",
+                              f.object.caption_for_resource_index(index),
+                              :style => 'display: none',
+                              :id => "page_captions_#{index}",
+                              :class => 'page_caption' %>
+            <%= raw form_actions %>
+          </div>
+        <% end %>
+      </li>
+    <% end %>
+    <li class='js-page-resources-template'>
+      <%= hidden_field_tag "#{f.object_name.demodulize}[resources_attributes][#{f.object.resources.size}][id]" %>
+      <% if Refinery::PageResources.captions %>
+        <div class='page-resources-caption-modal <%= modal_class %>'>
+          <%= text_area_tag "#{f.object_name.demodulize}[resources_attributes][#{f.object.resources.size}][caption]",
+                            '',
+                            :style => 'display: none',
+                            :id => "page_captions_#{f.object.resources.size}",
+                            :class => 'page_caption' %>
+          <%= raw form_actions %>
+        </div>
+      <% end %>
+    </li>
+  </ul>
+</div>

@@ -1,8 +1,8 @@
-# Page Images Engine for Refinery CMS
+# Page Resources Engine for Refinery CMS
 
 ## About
 
-Page Images allows you to relate one or more images to any page in Refinery which makes it really easy for you to create simple image galleries with lightbox style popups on the front end page views.
+Page Resources allows you to relate one or more resources to any page in Refinery which makes it really easy for you to create simple resource galleries with lightbox style popups on the front end page views.
 
 ## Requirements
 
@@ -10,29 +10,29 @@ Page Images allows you to relate one or more images to any page in Refinery whic
 
 ## Features
 
-* Ability to select one or more images from the image picker and assign them to a page
-* An image can be assigned to more than one page
+* Ability to select one or more resources from the resource picker and assign them to a page
+* An resource can be assigned to more than one page
 * Reordering support, simply drag into order
-* An image assigned to a page can have a caption.
-* An image's caption can be different for different pages
+* An resource assigned to a page can have a caption.
+* An resource's caption can be different for different pages
 
 ## Install
 
 Add this line to your applications `Gemfile`
 
 ```ruby
-gem 'refinerycms-page-images', '~> 2.1.0'
+gem 'refinerycms-page-resources', '~> 2.1.0'
 ```
 
 Next run
 
 ```bash
 bundle install
-rails generate refinery:page_images
+rails generate refinery:page_resources
 rake db:migrate
 ```
 
-Now when you start up your Refinery application, edit a page and there should be a new "Images" tab.
+Now when you start up your Refinery application, edit a page and there should be a new "Resources" tab.
 
 # Deploying to Heroku
 
@@ -57,14 +57,14 @@ TCP/IP connections on port 5432?
 You can enable captions using an initializer containing the following configuration:
 
 ```ruby
-# app/config/initializers/refinery/page-images.rb
-Refinery::PageImages.captions = true
+# app/config/initializers/refinery/page-resources.rb
+Refinery::PageResources.captions = true
 ```
 
 By default, captions are WYM editors. Prefer `textarea`s? Gotcha :
 
 ```ruby
-Refinery::PageImages.wysiwyg = false
+Refinery::PageResources.wysiwyg = false
 ```
 
 ## Usage
@@ -77,19 +77,19 @@ If you don't have this file then Refinery will be using its default. You can ove
 rake refinery:override view=refinery/pages/show
 ```
 
-If images have been assigned to a page several objects are available for showing on the page. They are
+If resources have been assigned to a page several objects are available for showing on the page. They are
 
-* `@page.images`: A collection of images assigned to the page.
-* `@page.caption_for_image_index(i)` will return the caption (if any) for the i<sup>th</sup> image in @page.images
-* `@page.images_with_captions`: A collection of image_with_caption objects with the attributes image: and caption:
+* `@page.resources`: A collection of resources assigned to the page.
+* `@page.caption_for_resource_index(i)` will return the caption (if any) for the i<sup>th</sup> resource in @page.resources
+* `@page.resources_with_captions`: A collection of resource_with_caption objects with the attributes resource: and caption:
 
 ```erb
 <% content_for :body_content_right do %>
   <ul id='gallery'>
-    <% @page.images.each do |image| %>
+    <% @page.resources.each do |resource| %>
       <li>
-        <%= link_to image_tag(image.thumbnail(geometry: "200x200#c").url),
-                    image.thumbnail(geometry: "900x600").url %>
+        <%= link_to resource_tag(resource.thumbnail(geometry: "200x200#c").url),
+                    resource.thumbnail(geometry: "900x600").url %>
       </li>
    <% end %>
   </ul>
@@ -102,11 +102,11 @@ If you have enabled captions, you can show them like this
 ```erb
 <% content_for :body_content_right do %>
   <ul id='gallery'>
-    <% @page.images.each_with_index do |image, index| %>
+    <% @page.resources.each_with_index do |resource, index| %>
       <li>
-        <%= link_to image_tag(image.thumbnail(geometry: "200x200#c").url),
-                    image.thumbnail(geometry: "900x600").url %>
-        <span class='caption'><%=raw @page.caption_for_image_index(index) %></span>
+        <%= link_to resource_tag(resource.thumbnail(geometry: "200x200#c").url),
+                    resource.thumbnail(geometry: "900x600").url %>
+        <span class='caption'><%=raw @page.caption_for_resource_index(index) %></span>
       </li>
    <% end %>
   </ul>
@@ -117,10 +117,10 @@ or like this
 ```erb
 <% content_for :body_content_right do %>
   <section id='gallery'>
-    <% @page.images_with_captions do |iwc| %>
+    <% @page.resources_with_captions do |iwc| %>
       <figure>
-        <%= link_to image_tag(iwc.image.thumbnail(geometry: "200x200#c").url),
-                    iwc.image.thumbnail(geometry: "900x600").url %>
+        <%= link_to resource_tag(iwc.resource.thumbnail(geometry: "200x200#c").url),
+                    iwc.resource.thumbnail(geometry: "900x600").url %>
         <figcaption><%=raw iwc.caption %></figcaption>
       </figure>
    <% end %>
@@ -130,4 +130,4 @@ or like this
 ```
 ## Screenshot
 
-![Refinery CMS Page Images Screenshot](http://refinerycms.com/system/images/0000/1736/refinerycms-page-images.png)
+![Refinery CMS Page Resources Screenshot](http://refinerycms.com/system/resources/0000/1736/refinerycms-page-resources.png)

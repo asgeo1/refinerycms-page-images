@@ -1,14 +1,14 @@
 <%# encoding: utf-8 %>
-var image_added; // Global callback
+var resource_added; // Global callback
 (function($) {
-  var reset_functionality, open_image_caption, reindex_images,
+  var reset_functionality, open_resource_caption, reindex_resources,
       template_li, wysiwyg_enabled, input_type;
   $(document).ready(function(){
-    var picker = $('#page_image_picker');
+    var picker = $('#page_resource_picker');
     input_type = picker.data('input-type');
     wysiwyg_enabled = input_type == 'wym';
 
-    $('#custom_images_tab a').click(function(){
+    $('#custom_resources_tab a').click(function(){
       if (!picker.data('size-applied') && wysiwyg_enabled){
         var wym_box = $('.page_part:first .wym_box'),
             iframe = $('.page_part:first iframe');
@@ -30,7 +30,7 @@ var image_added; // Global callback
     // Webkit browsers don't like the textarea being moved around the DOM,
     // they ignore the new contents. This is fixed below by adding a hidden
     // field that stays in place.
-    $('#page_images li textarea:hidden').each(function(index) {
+    $('#page_resources li textarea:hidden').each(function(index) {
       var old_name = $(this).attr('name'),
           $this = $(this);
       $this.attr('data-old-id', $this.attr('id'));
@@ -51,8 +51,8 @@ var image_added; // Global callback
 
 
     // Once the plugin has init'd everything, remove the template UI
-    $('.page-images-caption-modal').hide();
-    template_li = $('#page_images .js-page-images-template').detach();
+    $('.page-resources-caption-modal').hide();
+    template_li = $('#page_resources .js-page-resources-template').detach();
   });
 
   reset_functionality = function() {
@@ -62,74 +62,74 @@ var image_added; // Global callback
       });
     }
 
-    $("#page_images").sortable({
+    $("#page_resources").sortable({
       'tolerance': 'pointer'
       , 'placeholder': 'placeholder'
       , 'cursor': 'drag'
       , 'items': 'li'
-      , stop: reindex_images
+      , stop: reindex_resources
     });
 
-    $('#page_images').on('mouseenter mouseleave', 'li', function(e) {
+    $('#page_resources').on('mouseenter mouseleave', 'li', function(e) {
       var $this = $(this),
-          image_actions = $this.find('.image_actions');
+          resource_actions = $this.find('.resource_actions');
       if (e.type == 'mouseenter') {
-        if (image_actions.length == 0) {
-          image_actions = $("<div class='image_actions'></div>");
-          var img_delete = $("<img src='<%= image_path('refinery/icons/delete.png') %>' width='16' height='16' />");
-          img_delete.appendTo(image_actions);
+        if (resource_actions.length == 0) {
+          resource_actions = $("<div class='resource_actions'></div>");
+          var img_delete = $("<img src='<%= resource_path('refinery/icons/delete.png') %>' width='16' height='16' />");
+          img_delete.appendTo(resource_actions);
           img_delete.click(function() {
             $(this).parents('li').first().remove();
-            reindex_images();
+            reindex_resources();
           });
 
           if ($this.find('textarea.page_caption').length > 0) {
-            var img_caption = $("<img src='<%= image_path('refinery/icons/user_comment.png') %>' width='16' height='16' class='caption' />");
-            img_caption.appendTo(image_actions);
-            img_caption.click(open_image_caption);
+            var img_caption = $("<img src='<%= resource_path('refinery/icons/user_comment.png') %>' width='16' height='16' class='caption' />");
+            img_caption.appendTo(resource_actions);
+            img_caption.click(open_resource_caption);
           } else {
-            image_actions.addClass('no_captions');
+            resource_actions.addClass('no_captions');
           }
 
-          image_actions.appendTo($this);
+          resource_actions.appendTo($this);
         }
 
-        image_actions.show();
+        resource_actions.show();
       } else if (e.type == 'mouseleave') {
-        image_actions.hide();
+        resource_actions.hide();
       }
     });
 
-    reindex_images();
+    reindex_resources();
   };
 
-  image_added = function(image) {
+  resource_added = function(resource) {
     var current_list_item = template_li.clone(),
-        image_id = $(image).attr('id').replace('image_', '');
-    current_list_item.find('input:hidden:first').val(image_id);
+        resource_id = $(resource).attr('id').replace('resource_', '');
+    current_list_item.find('input:hidden:first').val(resource_id);
 
     $("<img />").attr({
-      title: $(image).attr('title')
-      , alt: $(image).attr('alt')
-      , src: $(image).attr('data-grid') // use 'grid' size that is built into Refinery CMS (135x135#c).
+      title: $(resource).attr('title')
+      , alt: $(resource).attr('alt')
+      , src: $(resource).attr('data-grid') // use 'grid' size that is built into Refinery CMS (135x135#c).
     }).appendTo(current_list_item);
 
-    current_list_item.attr('id', 'image_' + image_id).removeClass('empty');
+    current_list_item.attr('id', 'resource_' + resource_id).removeClass('empty');
 
-    current_list_item.appendTo($('#page_images'));
+    current_list_item.appendTo($('#page_resources'));
     reset_functionality();
   };
 
-  open_image_caption = function(e) {
+  open_resource_caption = function(e) {
     var list_item = $(this).closest('li'),
-        textarea = list_item.find('.page-images-caption-modal > textarea'),
+        textarea = list_item.find('.page-resources-caption-modal > textarea'),
         textarea_wrapper = textarea.parent(),
         modal_size = {
           textarea: { width: 400, height: 'auto' },
           wym: { width: 928, height: 530 }
         };
 
-    textarea_wrapper.find('.js-page-images-done').on('click', function() {
+    textarea_wrapper.find('.js-page-resources-done').on('click', function() {
       textarea_wrapper.dialog("close");
     });
 
@@ -146,7 +146,7 @@ var image_added; // Global callback
     // move the textarea out of the list item, and then move the textarea back into it when we click done.
     list_item.addClass('current_caption_list_item');
     textarea_wrapper.dialog({
-      title: "<%= I18n.t('refinery.js.admin.page_images.add_caption') %>"
+      title: "<%= I18n.t('refinery.js.admin.page_resources.add_caption') %>"
       , modal: true
       , resizable: false
       , autoOpen: true
@@ -163,26 +163,26 @@ var image_added; // Global callback
     }
   };
 
-  reindex_images = function() {
-    $('#page_images li textarea:hidden').each(function(i, input){
-      // make the image's name consistent with its position.
+  reindex_resources = function() {
+    $('#page_resources li textarea:hidden').each(function(i, input){
+      // make the resource's name consistent with its position.
       var parts = $(input).attr('name').split('_');
       parts[2] = ('' + i);
       $(input).attr('name', parts.join('_'));
 
-      // make the image's id consistent with its position.
+      // make the resource's id consistent with its position.
       $(input).attr('id', $(input).attr('id').replace(/_\d/, '_' + i));
       $(input).attr('data-old-id', $(input).attr('data-old-id').replace(/_\d_/, '_'+i+'_').replace(/_\d/, '_' + i));
     });
-    $('#page_images li').each(function(i, li){
+    $('#page_resources li').each(function(i, li){
       $('input:hidden', li).each(function() {
         var $this = $(this);
-        // make the image's name consistent with its position.
+        // make the resource's name consistent with its position.
         var parts = $this.attr('name').split(']');
         parts[1] = ('[' + i);
         $this.attr('name', parts.join(']'));
 
-        // make the image's id consistent with its position.
+        // make the resource's id consistent with its position.
         $this.attr('id', $this.attr('id').replace(/_\d_/, '_'+i+'_').replace(/_\d/, '_'+i));
       });
     });

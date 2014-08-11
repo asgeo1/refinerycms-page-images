@@ -1,5 +1,5 @@
 module Refinery
-  module PageImages
+  module PageResources
     include ActiveSupport::Configurable
 
     config_accessor :captions, :enable_for, :wysiwyg

@@ -1,12 +1,12 @@
 de:
   refinery:
     plugins:
-      refinery_page_images:
+      refinery_page_resources:
         tab_name: Seitenbilder
         title: Seitenbilder
         description: Das Seitenbilder-Plugin erlaubt dir ein oder mehrere Bilder einer Seite zuzuordnen. Damit ist es möglich Bildergalerien in der Frontendansicht darzustellen.
     admin:
       pages:
         tabs:
-          images_bar:
+          resources_bar:
             add: Bild hinzufügen

@@ -2,97 +2,97 @@ require 'spec_helper'
 
 module Refinery
   describe Page do
-    it "can have images added" do
+    it "can have resources added" do
       page = FactoryGirl.create(:page)
-      page.images.count.should eq(0)
+      page.resources.count.should eq(0)
 
-      page.images << FactoryGirl.create(:image)
-      page.images.count.should eq(1)
+      page.resources << FactoryGirl.create(:resource)
+      page.resources.count.should eq(1)
     end
 
-    describe '#images_with_captions' do
-      it 'returns an images_with_captions collection' do
+    describe '#resources_with_captions' do
+      it 'returns an resources_with_captions collection' do
         page = FactoryGirl.create(:page)
-        page.images_with_captions.count.should eq(0)
+        page.resources_with_captions.count.should eq(0)
 
-        page.images << FactoryGirl.create(:image)
-        page.images_with_captions.count.should eq(1)
+        page.resources << FactoryGirl.create(:resource)
+        page.resources_with_captions.count.should eq(1)
       end
 
-      it 'returns an image and a caption' do
+      it 'returns an resource and a caption' do
         page = FactoryGirl.create(:page)
-        page.images_with_captions.count.should eq(0)
+        page.resources_with_captions.count.should eq(0)
 
-        page.images << FactoryGirl.create(:image)
-        page.images_with_captions.first[:image].should be_a(Refinery::Image)
-        page.images_with_captions.first[:caption].should be_a(String)
+        page.resources << FactoryGirl.create(:resource)
+        page.resources_with_captions.first[:resource].should be_a(Refinery::Resource)
+        page.resources_with_captions.first[:caption].should be_a(String)
       end
 
     end
 
-    describe "#images_attributes=" do
-      it "adds images" do
+    describe "#resources_attributes=" do
+      it "adds resources" do
         page = FactoryGirl.create(:page)
-        image = FactoryGirl.create(:image)
+        resource = FactoryGirl.create(:resource)
 
-        page.images.count.should == 0
-        page.update_attributes({:images_attributes => {"0" => {"id" => image.id}}})
+        page.resources.count.should == 0
+        page.update_attributes({:resources_attributes => {"0" => {"id" => resource.id}}})
 
-        page.images.count.should == 1
+        page.resources.count.should == 1
       end
 
-      it "deletes specific images" do
+      it "deletes specific resources" do
         page = FactoryGirl.create(:page)
-        images = [FactoryGirl.create(:image), FactoryGirl.create(:image)]
-        page.images = images
+        resources = [FactoryGirl.create(:resource), FactoryGirl.create(:resource)]
+        page.resources = resources
 
-        page_image_to_keep = page.image_pages.find do |image_page|
-          image_page.image_id == images.first.id
+        page_resource_to_keep = page.resource_pages.find do |resource_page|
+          resource_page.resource_id == resources.first.id
         end
-        page.update_attributes(:images_attributes => {
+        page.update_attributes(:resources_attributes => {
           "0" => {
-            "id" => page_image_to_keep.image_id.to_s,
-            "image_page_id" => page_image_to_keep.id
+            "id" => page_resource_to_keep.resource_id.to_s,
+            "resource_page_id" => page_resource_to_keep.id
           },
         })
 
-        page.images.should eq([images.first])
+        page.resources.should eq([resources.first])
       end
 
-      it "deletes all images" do
+      it "deletes all resources" do
         page = FactoryGirl.create(:page)
-        images = [FactoryGirl.create(:image), FactoryGirl.create(:image)]
-        page.images = images
+        resources = [FactoryGirl.create(:resource), FactoryGirl.create(:resource)]
+        page.resources = resources
 
-        page.update_attributes(:images_attributes => {"0" => {"id"=>""}})
+        page.update_attributes(:resources_attributes => {"0" => {"id"=>""}})
 
-        page.images.should be_empty
+        page.resources.should be_empty
       end
 
-      it "reorders images" do
+      it "reorders resources" do
         page = FactoryGirl.create(:page)
-        images = [FactoryGirl.create(:image), FactoryGirl.create(:image)]
-        page.images = images
+        resources = [FactoryGirl.create(:resource), FactoryGirl.create(:resource)]
+        page.resources = resources
 
-        first_page_image = page.image_pages.find do |image_page|
-          image_page.image_id == images.first.id
+        first_page_resource = page.resource_pages.find do |resource_page|
+          resource_page.resource_id == resources.first.id
         end
-        second_page_image = page.image_pages.find do |image_page|
-          image_page.image_id == images.second.id
+        second_page_resource = page.resource_pages.find do |resource_page|
+          resource_page.resource_id == resources.second.id
         end
 
-        page.update_attributes(:images_attributes => {
+        page.update_attributes(:resources_attributes => {
           "0" => {
-            "id" => second_page_image.image_id,
-            "image_page_id" => second_page_image.id,
+            "id" => second_page_resource.resource_id,
+            "resource_page_id" => second_page_resource.id,
           },
           "1" => {
-            "id" => first_page_image.image_id,
-            "image_page_id" => first_page_image.id,
+            "id" => first_page_resource.resource_id,
+            "resource_page_id" => first_page_resource.id,
           },
         })
 
-        page.images.should eq([images.second, images.first])
+        page.resources.should eq([resources.second, resources.first])
       end
     end
   end

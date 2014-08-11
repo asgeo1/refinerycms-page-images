@@ -1,7 +1,7 @@
 module Refinery
-  class ImagePage < Refinery::Core::BaseModel
+  class ResourcePage < Refinery::Core::BaseModel
 
-    belongs_to :image
+    belongs_to :resource
     belongs_to :page, :polymorphic => true
 
     translates :caption if self.respond_to?(:translates)

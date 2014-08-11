@@ -1,0 +1,8 @@
+<div class='wym_skin_refinery page_part' id='page_resource_picker'
+     data-input-type="<%= Refinery::PageResources.config.wysiwyg ? 'wym' : 'textarea'%>">
+  <%= render '/refinery/admin/pages/tabs/resources_bar', :f => f %>
+  <%= render '/refinery/admin/pages/tabs/resources_field', :f => f %>
+</div>
+
+<% content_for :stylesheets, stylesheet_link_tag('refinery/page-resource-picker') %>
+<% content_for :javascripts, javascript_include_tag('refinery/page-resource-picker') %>

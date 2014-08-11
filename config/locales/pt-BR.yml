@@ -1,17 +1,17 @@
 pt-BR:
   refinery:
     plugins:
-      refinery_page_images:
-        tab_name: Imagens da Página
-        title: Imagens da Página
-        description: Imagens da Página te permite relacionar uma ou mais imagens a qualquer página no Refinery, tornando muito simples a criação de galerias de imagem no front end com popus no estilo lightbox.
+      refinery_page_resources:
+        tab_name: Resourcens da Página
+        title: Resourcens da Página
+        description: Resourcens da Página te permite relacionar uma ou mais resourcens a qualquer página no Refinery, tornando muito simples a criação de galerias de resourcem no front end com popus no estilo lightbox.
     js:
       admin:
-        page_images:
+        page_resources:
           add_caption: Adicionar Legenda
           done: Feito
     admin:
       pages:
         tabs:
-          images_bar:
-            add: Adicionar Imagem
+          resources_bar:
+            add: Adicionar Resourcem

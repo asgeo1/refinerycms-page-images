@@ -1,12 +1,12 @@
 nl:
   refinery:
     plugins:
-      refinery_page_images:
+      refinery_page_resources:
         tab_name: Pagina Afbeeldingen
         title: Pagina Afbeeldingen
         description: Pagina Afbeeldingen stelt u in staat op afbeeldingen te koppelen aan een specifieke pagina.
     admin:
       pages:
         tabs:
-          images_bar:
+          resources_bar:
             add: Afbeelding toevoegen.
