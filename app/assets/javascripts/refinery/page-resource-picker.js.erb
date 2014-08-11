@@ -76,7 +76,7 @@ var resource_added; // Global callback
       if (e.type == 'mouseenter') {
         if (resource_actions.length == 0) {
           resource_actions = $("<div class='resource_actions'></div>");
-          var img_delete = $("<img src='<%= resource_path('refinery/icons/delete.png') %>' width='16' height='16' />");
+          var img_delete = $("<img src='<%= image_path('refinery/icons/delete.png') %>' width='16' height='16' />");
           img_delete.appendTo(resource_actions);
           img_delete.click(function() {
             $(this).parents('li').first().remove();
@@ -84,7 +84,7 @@ var resource_added; // Global callback
           });
 
           if ($this.find('textarea.page_caption').length > 0) {
-            var img_caption = $("<img src='<%= resource_path('refinery/icons/user_comment.png') %>' width='16' height='16' class='caption' />");
+            var img_caption = $("<img src='<%= image_path('refinery/icons/user_comment.png') %>' width='16' height='16' class='caption' />");
             img_caption.appendTo(resource_actions);
             img_caption.click(open_resource_caption);
           } else {
