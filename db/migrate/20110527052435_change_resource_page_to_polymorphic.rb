@@ -1,4 +1,4 @@
-class ChangePageToPolymorphic < ActiveRecord::Migration
+class ChangeResourcePageToPolymorphic < ActiveRecord::Migration
   def change
     add_column Refinery::ResourcePage.table_name, :page_type, :string, :default => "page"
   end
