@@ -108,16 +108,28 @@ var resource_added; // Global callback
         resource_id = $(resource).attr('id').replace('resource_', '');
     current_list_item.find('input:hidden:first').val(resource_id);
 
+    /*
     $("<img />").attr({
       title: $(resource).attr('title')
       , alt: $(resource).attr('alt')
       , src: $(resource).attr('data-grid') // use 'grid' size that is built into Refinery CMS (135x135#c).
     }).appendTo(current_list_item);
+    */
+
+    $('<a>' +
+        '<img alt="Page white put" height="16" src="<%= image_path('refinery/icons/page_white_put.png') %>" width="16" class="file-icon">' +
+        '<span>' + resource.html + '</span>'
+      ).attr({
+        href: resource.href
+    }).appendTo(current_list_item);
+
+    console.log('resource', resource);
 
     current_list_item.attr('id', 'resource_' + resource_id).removeClass('empty');
 
     current_list_item.appendTo($('#page_resources'));
     reset_functionality();
+    $('iframe#dialog_iframe').dialog('close');
   };
 
   open_resource_caption = function(e) {
@@ -188,3 +200,4 @@ var resource_added; // Global callback
     });
   }
 })(jQuery);
+

@@ -13,7 +13,6 @@
     <%= f.fields_for :resources do |resource_form| %>
       <li id='resource_<%= resource_form.object.id %>'>
         <%= resource_form.hidden_field :id %>
-        <%= resource_fu resource_form.object, '135x135#c' %>
         <% index = resource_form.object_name.split('[').last.split(']').first.to_i %>
         <%= hidden_field_tag "#{f.object_name.demodulize}[resources_attributes][#{index}][resource_page_id]", f.object.resource_page_id_for_resource_index(index) %>
         <% if Refinery::PageResources.captions %>
@@ -26,6 +25,16 @@
             <%= raw form_actions %>
           </div>
         <% end %>
+
+      <%= link_to "#{refinery_icon_tag('page_white_put.png', class:'file-icon')} ".html_safe +
+                content_tag(
+                  :span,
+                  (%Q{#{resource_form.object.title} (#{resource_form.object.file_name})}).to_s
+                ),
+                "#{resource_form.object.url}",
+                :id => "resource_#{resource_form.object.id}",
+                :target => '_blank' %>
+
       </li>
     <% end %>
     <li class='js-page-resources-template'>
