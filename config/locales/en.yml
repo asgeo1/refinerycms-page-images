@@ -8,7 +8,7 @@ en:
     js:
       admin:
         page_images:
-          add_caption: Add Caption
+          add_caption: Image Link (URL or path)
           done: Done
     admin:
       pages:
